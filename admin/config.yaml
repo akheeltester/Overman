@@ -1,12 +1,20 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
-<body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-</body>
-</html>
+backend:
+  name: github
+  repo: akheeltester/overman   # change this!
+  branch: main
+  base_url: https://reliable-mochi-444cf1.netlify.app/    # for Netlify Identity
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "timeline"
+    label: "Timeline Chapters"
+    folder: "data"
+    create: true
+    format: "json"
+    fields:
+      - { label: "Year", name: "year", widget: "string" }
+      - { label: "Icon (Font Awesome class)", name: "icon", widget: "string" }
+      - { label: "Image Label", name: "imageLabel", widget: "string" }
+      - { label: "Title", name: "title", widget: "string" }
