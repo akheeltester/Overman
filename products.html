@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIXELS · products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* same global styles as projects.html – reuse */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      image-rendering: pixelated;
+    }
+
+    body {
+      background: #faf8f5;
+      font-family: 'VT323', monospace;
+      color: #1e1e1e;
+      font-size: 1.4rem;
+      border: 8px solid #1e1e1e;
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Press Start 2P', cursive;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 2rem;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+      border-bottom: 4px solid #1e1e1e;
+      padding-bottom: 1.5rem;
+    }
+
+    .nav-link {
+      background: #fff;
+      border: 4px solid #1e1e1e;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #1e1e1e;
+      text-decoration: none;
+      color: #1e1e1e;
+      transition: all 0.05s linear;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #1e1e1e;
+      color: #fff;
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+
+    .nav-link.active {
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    footer {
+      margin-top: 4rem;
+      border-top: 4px solid #1e1e1e;
+      padding-top: 1.5rem;
+      text-align: center;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .product-card {
+      border: 4px solid #1e1e1e;
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 6px 6px 0 #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .product-image {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border: 4px solid #1e1e1e;
+      background: #cfc1af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .product-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1rem;
+      border-bottom: 2px solid #1e1e1e;
+      padding-bottom: 0.3rem;
+    }
+
+    .product-price {
+      font-size: 2rem;
+      background: #1e1e1e;
+      color: #fff;
+      padding: 0.2rem 0.8rem;
+      display: inline-block;
+      align-self: flex-start;
+    }
+
+    .buy-btn {
+      width: 100%;
+      background: #fff;
+      border: 4px solid #1e1e1e;
+      font-family: 'Press Start 2P', cursive;
+      padding: 0.8rem;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #1e1e1e;
+      font-size: 0.8rem;
+    }
+
+    .buy-btn:hover {
+      background: #1e1e1e;
+      color: #fff;
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1># PIXELS.</h1>
+    </header>
+    <nav>
+      <a href="index.html" class="nav-link">HOME</a>
+      <a href="timeline.html" class="nav-link">TIMELINE</a>
+      <a href="projects.html" class="nav-link">PROJECTS</a>
+      <a href="products.html" class="nav-link active">PRODUCTS</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+    </nav>
+    <main>
+      <h2>🛒 pixel shop · books & goods</h2>
+      <div class="card-grid">
+        <div class="product-card">
+          <div class="product-image"><i class="fas fa-book"></i></div>
+          <div class="product-title">retro game dev</div>
+          <div class="product-price">$24</div>
+          <button class="buy-btn">buy now</button>
+        </div>
+        <div class="product-card">
+          <div class="product-image"><i class="fas fa-book-open"></i></div>
+          <div class="product-title">pixel art master</div>
+          <div class="product-price">$19</div>
+          <button class="buy-btn">buy now</button>
+        </div>
+        <div class="product-card">
+          <div class="product-image"><i class="fas fa-cassette"></i></div>
+          <div class="product-title">chiptune bundle</div>
+          <div class="product-price">$12</div>
+          <button class="buy-btn">buy now</button>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>© 2025 PIXELS. – products</p>
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+      btn.addEventListener('click', () => alert('🛒 demo purchase'));
+    });
+  </script>
+</body>
+
+</html>

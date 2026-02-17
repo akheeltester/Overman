@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIXELS · projects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* copy the same global styles from index.html (shortened here for brevity – use the full block from timeline or index) */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      image-rendering: pixelated;
+    }
+
+    body {
+      background: #faf8f5;
+      font-family: 'VT323', monospace;
+      color: #1e1e1e;
+      font-size: 1.4rem;
+      border: 8px solid #1e1e1e;
+      margin: 1rem;
+      padding: 1.5rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Press Start 2P', cursive;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 2rem;
+    }
+
+    .pixel-border {
+      border: 4px solid #1e1e1e;
+      background: #fff;
+      padding: 1rem;
+      box-shadow: 4px 4px 0 #1e1e1e;
+    }
+
+    button,
+    .pixel-btn,
+    .nav-link {
+      background: #fff;
+      border: 4px solid #1e1e1e;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #1e1e1e;
+      text-decoration: none;
+      color: #1e1e1e;
+      display: inline-block;
+      transition: all 0.05s linear;
+    }
+
+    button:hover,
+    .pixel-btn:hover,
+    .nav-link:hover {
+      background: #1e1e1e;
+      color: #fff;
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+      border-bottom: 4px solid #1e1e1e;
+      padding-bottom: 1.5rem;
+    }
+
+    .nav-link.active {
+      background: #1e1e1e;
+      color: #fff;
+      transform: translate(4px, 4px);
+      box-shadow: none;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    footer {
+      margin-top: 4rem;
+      border-top: 4px solid #1e1e1e;
+      padding-top: 1.5rem;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .card {
+      border: 4px solid #1e1e1e;
+      background: #fff;
+      padding: 1.2rem;
+      box-shadow: 6px 6px 0 #1e1e1e;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .card-image {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border: 4px solid #1e1e1e;
+      background: #c7b9a4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      border-bottom: 2px solid #1e1e1e;
+      padding-bottom: 0.3rem;
+    }
+
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tool-tag {
+      background: #1e1e1e;
+      color: #fff;
+      padding: 0.2rem 0.6rem;
+      font-size: 1rem;
+      border: 2px solid #1e1e1e;
+    }
+
+    .view-project {
+      width: 100%;
+      text-align: center;
+      margin-top: 0.5rem;
+      background: #fff;
+      border: 4px solid #1e1e1e;
+      font-family: 'Press Start 2P', cursive;
+      padding: 0.8rem;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #1e1e1e;
+      font-size: 0.8rem;
+    }
+
+    .view-project:hover {
+      background: #1e1e1e;
+      color: #fff;
+      transform: translate(4px, 4px);
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1># PIXELS.</h1>
+    </header>
+    <nav>
+      <a href="index.html" class="nav-link">HOME</a>
+      <a href="timeline.html" class="nav-link">TIMELINE</a>
+      <a href="projects.html" class="nav-link active">PROJECTS</a>
+      <a href="products.html" class="nav-link">PRODUCTS</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+    </nav>
+    <main>
+      <h2>⚙️ projects & tools</h2>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-image"><i class="fas fa-robot"></i></div>
+          <h3>pixel bot</h3>
+          <p>discord bot with retro commands</p>
+          <div class="tools"><span class="tool-tag">node.js</span><span class="tool-tag">discord.js</span></div>
+          <button class="view-project">view</button>
+        </div>
+        <div class="card">
+          <div class="card-image"><i class="fas fa-paint-brush"></i></div>
+          <h3>dither tool</h3>
+          <p>image to pixel art converter</p>
+          <div class="tools"><span class="tool-tag">python</span><span class="tool-tag">pillow</span></div>
+          <button class="view-project">view</button>
+        </div>
+        <div class="card">
+          <div class="card-image"><i class="fas fa-cube"></i></div>
+          <h3>voxel editor</h3>
+          <p>simple 3d pixel editor</p>
+          <div class="tools"><span class="tool-tag">three.js</span></div>
+          <button class="view-project">view</button>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>© 2025 PIXELS. – projects</p>
+    </footer>
+  </div>
+  <script>
+    document.querySelectorAll('.view-project').forEach(btn => {
+      btn.addEventListener('click', () => alert('project demo'));
+    });
+  </script>
+</body>
+
+</html>

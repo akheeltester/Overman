@@ -1,0 +1,38 @@
+[
+  {
+    "year": "2002",
+    "icon": "fa-baby",
+    "imageLabel": "arrival",
+    "title": "born"
+  },
+  {
+    "year": "2008",
+    "icon": "fa-pencil-alt",
+    "imageLabel": "first drawing",
+    "title": "kindergarten"
+  },
+  {
+    "year": "2014",
+    "icon": "fa-code",
+    "imageLabel": "hello world",
+    "title": "first code"
+  },
+  {
+    "year": "2018",
+    "icon": "fa-gamepad",
+    "imageLabel": "pixel game",
+    "title": "game jam"
+  },
+  {
+    "year": "2021",
+    "icon": "fa-laptop",
+    "imageLabel": "build",
+    "title": "first portfolio"
+  },
+  {
+    "year": "2025",
+    "icon": "fa-rocket",
+    "imageLabel": "launch",
+    "title": "now"
+  }
+]
