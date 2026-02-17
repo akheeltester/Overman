@@ -2,7 +2,7 @@ backend:
   name: github
   repo: akheeltester/overman   # change this!
   branch: main
-  base_url: https://reliable-mochi-444cf1.netlify.app/    # for Netlify Identity
+  base_url: https://overmann.netlify.app/    # for Netlify Identity
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
