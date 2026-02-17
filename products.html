@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PIXELS · products</title>
+  <title>AKHEEL · products</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* same global styles as projects.html – reuse */
+    /* ----- GLOBAL STYLES (same as other pages) ----- */
     * {
       margin: 0;
       padding: 0;
@@ -22,26 +21,19 @@
       color: #1e1e1e;
       font-size: 1.4rem;
       border: 8px solid #1e1e1e;
+      min-height: 100vh;
       margin: 1rem;
       padding: 1.5rem;
     }
 
-    h1,
-    h2,
-    h3 {
+    h1, h2, h3 {
       font-family: 'Press Start 2P', cursive;
       margin-bottom: 1.5rem;
       text-transform: uppercase;
     }
 
-    h1 {
-      font-size: 2.2rem;
-    }
-
-    h2 {
-      font-size: 1.6rem;
-      margin-top: 2rem;
-    }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.6rem; margin-top: 2rem; }
 
     nav {
       display: flex;
@@ -65,8 +57,7 @@
       transition: all 0.05s linear;
     }
 
-    .nav-link:hover,
-    .nav-link.active {
+    .nav-link:hover, .nav-link.active {
       background: #1e1e1e;
       color: #fff;
       transform: translate(4px, 4px);
@@ -87,11 +78,13 @@
       border-top: 4px solid #1e1e1e;
       padding-top: 1.5rem;
       text-align: center;
+      font-size: 1.2rem;
     }
 
+    /* ----- PRODUCT PAGE STYLES ----- */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 2rem;
       margin: 2rem 0;
     }
@@ -99,38 +92,52 @@
     .product-card {
       border: 4px solid #1e1e1e;
       background: #fff;
-      padding: 1rem;
+      padding: 1.5rem;
       box-shadow: 6px 6px 0 #1e1e1e;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 1rem;
+      transition: transform 0.1s;
+    }
+
+    .product-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 8px 8px 0 #1e1e1e;
     }
 
     .product-image {
       width: 100%;
       aspect-ratio: 1/1;
       border: 4px solid #1e1e1e;
-      background: #cfc1af;
+      background: #c7b9a4;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3rem;
+      font-size: 4rem;
     }
 
     .product-title {
       font-family: 'Press Start 2P', cursive;
       font-size: 1rem;
       border-bottom: 2px solid #1e1e1e;
-      padding-bottom: 0.3rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .product-description {
+      font-size: 1.2rem;
+      color: #333;
     }
 
     .product-price {
       font-size: 2rem;
+      font-weight: bold;
       background: #1e1e1e;
       color: #fff;
-      padding: 0.2rem 0.8rem;
+      padding: 0.3rem 1rem;
       display: inline-block;
       align-self: flex-start;
+      border: 4px solid #1e1e1e;
+      box-shadow: 4px 4px 0 #1e1e1e;
     }
 
     .buy-btn {
@@ -138,10 +145,12 @@
       background: #fff;
       border: 4px solid #1e1e1e;
       font-family: 'Press Start 2P', cursive;
-      padding: 0.8rem;
+      font-size: 0.9rem;
+      padding: 1rem;
       cursor: pointer;
       box-shadow: 4px 4px 0 #1e1e1e;
-      font-size: 0.8rem;
+      transition: all 0.05s linear;
+      margin-top: 0.5rem;
     }
 
     .buy-btn:hover {
@@ -150,14 +159,23 @@
       transform: translate(4px, 4px);
       box-shadow: none;
     }
+
+    .payment-note {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      border: 2px dashed #1e1e1e;
+      background: #f0e9de;
+    }
   </style>
 </head>
-
 <body>
   <div class="container">
     <header>
-      <h1># PIXELS.</h1>
+      <h1># AKHEEL.</h1>
     </header>
+    
     <nav>
       <a href="index.html" class="nav-link">HOME</a>
       <a href="timeline.html" class="nav-link">TIMELINE</a>
@@ -165,38 +183,125 @@
       <a href="products.html" class="nav-link active">PRODUCTS</a>
       <a href="about.html" class="nav-link">ABOUT</a>
     </nav>
+
     <main>
-      <h2>🛒 pixel shop · books & goods</h2>
+      <h2>🛒 pixel shop</h2>
+      
+      <!-- Product Grid -->
       <div class="card-grid">
+        <!-- Product 1: Retro Game Dev Book -->
         <div class="product-card">
-          <div class="product-image"><i class="fas fa-book"></i></div>
-          <div class="product-title">retro game dev</div>
-          <div class="product-price">$24</div>
-          <button class="buy-btn">buy now</button>
+          <div class="product-image">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="product-title">RETRO GAME DEV</div>
+          <div class="product-description">
+            Learn pixel art, chiptune, and game development fundamentals. 200+ pages.
+          </div>
+          <div class="product-price">₹499</div>
+          <button onclick="payWithRazorpay('Retro Game Dev Book', 49900, 'akheel@example.com', '9999999999')" class="buy-btn">
+            BUY NOW
+          </button>
         </div>
+
+        <!-- Product 2: Pixel Art Master -->
         <div class="product-card">
-          <div class="product-image"><i class="fas fa-book-open"></i></div>
-          <div class="product-title">pixel art master</div>
-          <div class="product-price">$19</div>
-          <button class="buy-btn">buy now</button>
+          <div class="product-image">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <div class="product-title">PIXEL ART MASTER</div>
+          <div class="product-description">
+            Advanced pixel techniques, dithering, animation, and character design.
+          </div>
+          <div class="product-price">₹349</div>
+          <button onclick="payWithRazorpay('Pixel Art Master', 34900, 'akheel@example.com', '9999999999')" class="buy-btn">
+            BUY NOW
+          </button>
         </div>
+
+        <!-- Product 3: Chiptune Bundle -->
         <div class="product-card">
-          <div class="product-image"><i class="fas fa-cassette"></i></div>
-          <div class="product-title">chiptune bundle</div>
-          <div class="product-price">$12</div>
-          <button class="buy-btn">buy now</button>
+          <div class="product-image">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="product-title">CHIPTUNE BUNDLE</div>
+          <div class="product-description">
+            50+ chiptune samples, trackers, and composition guide for retro music.
+          </div>
+          <div class="product-price">₹299</div>
+          <button onclick="payWithRazorpay('Chiptune Bundle', 29900, 'akheel@example.com', '9999999999')" class="buy-btn">
+            BUY NOW
+          </button>
         </div>
       </div>
+
+      <div class="payment-note">
+        <i class="fas fa-shield-alt"></i> Secure payments via Razorpay. Supports UPI (GPay, PhonePe, Paytm), Cards, and NetBanking.
+      </div>
     </main>
+
     <footer>
-      <p>© 2025 PIXELS. – products</p>
+      <p>© 2025 AKHEEL. – retro shop</p>
     </footer>
   </div>
+
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
   <script>
-    document.querySelectorAll('.buy-btn').forEach(btn => {
-      btn.addEventListener('click', () => alert('🛒 demo purchase'));
-    });
+    // Razorpay payment function
+    function payWithRazorpay(productName, amount, email, phone) {
+      
+      // 👇 IMPORTANT: Replace this with your actual Razorpay Key ID
+      // Get it from: https://dashboard.razorpay.com/#/app/keys
+      const razorpayKey = "rzp_test_SHGwR40ambZGO3"; // CHANGE THIS!
+      
+      // For testing, use test key: "rzp_test_YourTestKey"
+      
+      const options = {
+        key: razorpayKey, // Your Razorpay Key ID
+        amount: amount, // Amount in paise (₹499 = 49900 paise)
+        currency: "INR",
+        name: "Akheel's Pixel Shop",
+        description: productName,
+        image: "https://your-site.netlify.app/pixel-logo.png", // Optional: your logo
+        handler: function(response) {
+          // This runs after successful payment
+          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+          
+          // You can redirect to a thank you page
+          // window.location.href = "thankyou.html?payment_id=" + response.razorpay_payment_id;
+          
+          console.log("Payment success:", response);
+        },
+        prefill: {
+          name: "Customer Name", // Optional: you can collect this via a form
+          email: email,
+          contact: phone
+        },
+        notes: {
+          address: "Pixel Shop"
+        },
+        theme: {
+          color: "#1e1e1e" // Matches your retro theme
+        },
+        modal: {
+          ondismiss: function() {
+            console.log("Payment cancelled");
+          }
+        }
+      };
+
+      // Create and open Razorpay checkout
+      const razorpay = new Razorpay(options);
+      razorpay.open();
+      
+      // Optional: Handle payment failure
+      razorpay.on('payment.failed', function(response) {
+        alert("Payment failed: " + response.error.description);
+        console.error("Payment error:", response.error);
+      });
+    }
   </script>
 </body>
-
 </html>
