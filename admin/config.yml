@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: akheeltester/overman   # change this!
+  repo: akheeltester/Overman        # 👈 capital O (match your repo)
   branch: main
-  base_url: https://overmann.netlify.app/    # for Netlify Identity
+  auth_type: implicit               # 👈 tells CMS to use token from URL
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
