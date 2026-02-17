@@ -1,8 +1,8 @@
 backend:
   name: github
-  repo: akheeltester/Overman        # 👈 capital O (match your repo)
+  repo: akheeltester/Overman
   branch: main
-  auth_type: implicit               # 👈 tells CMS to use token from URL
+  auth_type: implicit
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
