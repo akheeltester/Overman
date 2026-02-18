@@ -222,55 +222,53 @@
   </div>
 
   <script>
-    // Handle signup
-    async function handleSignup() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const fullname = document.getElementById('fullname').value;
-      const errorDiv = document.getElementById('error');
+  async function handleSignup() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const fullname = document.getElementById('fullname').value;
+    const errorDiv = document.getElementById('error');
 
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            full_name: fullname
-          }
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          full_name: fullname
         }
-      });
-
-// After signup, if you auto-login (depends on settings)
-if (!error) {
-  const pending = localStorage.getItem('pendingCartItem');
-  if (pending) {
-    const product = JSON.parse(pending);
-    // You might need to wait for login; better to handle in login page
-    localStorage.removeItem('pendingCartItem');
-  }
-  alert('Check your email for confirmation!');
-  window.location.href = 'login.html';
-}
-    // Auth state change (for nav greeting)
-    supabase.auth.onAuthStateChange((event, session) => {
-      const greeting = document.getElementById('user-greeting');
-      const loginLink = document.getElementById('login-link');
-      const logoutLink = document.getElementById('logout-link');
-      if (session) {
-        greeting.innerText = `Hi, ${session.user.email}`;
-        loginLink.style.display = 'none';
-        logoutLink.style.display = 'inline-block';
-      } else {
-        greeting.innerText = '';
-        loginLink.style.display = 'inline-block';
-        logoutLink.style.display = 'none';
       }
     });
 
-    // Logout function
-    window.logout = async function() {
-      await supabase.auth.signOut();
-      location.reload();
-    };
-  </script>
+    if (error) {
+      errorDiv.innerText = error.message;
+    } else {
+      // Optional: If email confirmation is disabled, you can auto-login here.
+      // But it's safer to redirect to login with a message.
+      alert('Account created! Please log in.');
+      window.location.href = 'login.html';
+    }
+  }
+
+  // Auth state change (for nav greeting)
+  supabase.auth.onAuthStateChange((event, session) => {
+    const greeting = document.getElementById('user-greeting');
+    const loginLink = document.getElementById('login-link');
+    const logoutLink = document.getElementById('logout-link');
+    if (session) {
+      greeting.innerText = `Hi, ${session.user.email}`;
+      loginLink.style.display = 'none';
+      logoutLink.style.display = 'inline-block';
+    } else {
+      greeting.innerText = '';
+      loginLink.style.display = 'inline-block';
+      logoutLink.style.display = 'none';
+    }
+  });
+
+  // Logout function
+  window.logout = async function() {
+    await supabase.auth.signOut();
+    location.reload();
+  };
+</script>
 </body>
 </html>
