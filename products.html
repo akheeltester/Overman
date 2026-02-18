@@ -6,12 +6,19 @@
   <title>AKHEEL · products</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = 'https://pwvyxhtlmozfeqorlnib.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_YsCixepPW0lGeBEq7R902g_TeAsiLQA';
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-</script>
+  <script>
+    // Initialize Supabase (use your actual URL and anon key)
+    const SUPABASE_URL = 'https://pwvyxhtlmozfeqorlnib.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_YsCixepPW0lGeBEq7R902g_TeAsiLQA';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+  
+  <!-- Cart logic -->
+  <script src="cart.js"></script>
+  
   <style>
     /* ----- GLOBAL STYLES (same as other pages) ----- */
     * {
@@ -48,6 +55,7 @@
       margin-bottom: 3rem;
       border-bottom: 4px solid #1e1e1e;
       padding-bottom: 1.5rem;
+      align-items: center;
     }
 
     .nav-link {
@@ -146,7 +154,7 @@
       box-shadow: 4px 4px 0 #1e1e1e;
     }
 
-    .buy-btn {
+    .add-to-cart-btn {
       width: 100%;
       background: #fff;
       border: 4px solid #1e1e1e;
@@ -159,7 +167,7 @@
       margin-top: 0.5rem;
     }
 
-    .buy-btn:hover {
+    .add-to-cart-btn:hover {
       background: #1e1e1e;
       color: #fff;
       transform: translate(4px, 4px);
@@ -173,6 +181,14 @@
       padding: 1rem;
       border: 2px dashed #1e1e1e;
       background: #f0e9de;
+    }
+
+    /* user greeting in nav */
+    #user-greeting {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: #1e1e1e;
+      margin-right: 1rem;
     }
   </style>
 </head>
@@ -188,6 +204,14 @@
       <a href="projects.html" class="nav-link">PROJECTS</a>
       <a href="products.html" class="nav-link active">PRODUCTS</a>
       <a href="about.html" class="nav-link">ABOUT</a>
+      
+      <!-- User greeting and cart/login links -->
+      <div style="margin-left:auto; display:flex; gap:1rem; align-items:center;">
+        <span id="user-greeting"></span>
+        <a href="cart.html" class="nav-link">🛒 CART</a>
+        <a href="login.html" class="nav-link" id="login-link">LOGIN</a>
+        <a href="#" class="nav-link" id="logout-link" style="display:none;" onclick="logout()">LOGOUT</a>
+      </div>
     </nav>
 
     <main>
@@ -199,14 +223,15 @@
         <div class="product-card">
           <div class="product-image">
             <i class="fas fa-book"></i>
+            <!-- You can replace the <i> with an <img> tag if you have actual images -->
           </div>
           <div class="product-title">RETRO GAME DEV</div>
           <div class="product-description">
             Learn pixel art, chiptune, and game development fundamentals. 200+ pages.
           </div>
           <div class="product-price">₹499</div>
-          <button onclick="payWithRazorpay('Retro Game Dev Book', 49900, 'akheel@example.com', '9999999999')" class="buy-btn">
-            BUY NOW
+          <button class="add-to-cart-btn" onclick="addToCart({ id: 'book1', name: 'Retro Game Dev', price: 49900 })">
+            ADD TO CART
           </button>
         </div>
 
@@ -220,8 +245,8 @@
             Advanced pixel techniques, dithering, animation, and character design.
           </div>
           <div class="product-price">₹349</div>
-          <button onclick="payWithRazorpay('Pixel Art Master', 34900, 'akheel@example.com', '9999999999')" class="buy-btn">
-            BUY NOW
+          <button class="add-to-cart-btn" onclick="addToCart({ id: 'book2', name: 'Pixel Art Master', price: 34900 })">
+            ADD TO CART
           </button>
         </div>
 
@@ -235,8 +260,8 @@
             50+ chiptune samples, trackers, and composition guide for retro music.
           </div>
           <div class="product-price">₹299</div>
-          <button onclick="payWithRazorpay('Chiptune Bundle', 29900, 'akheel@example.com', '9999999999')" class="buy-btn">
-            BUY NOW
+          <button class="add-to-cart-btn" onclick="addToCart({ id: 'bundle1', name: 'Chiptune Bundle', price: 29900 })">
+            ADD TO CART
           </button>
         </div>
       </div>
@@ -251,63 +276,31 @@
     </footer>
   </div>
 
-  <!-- Razorpay Checkout Script -->
+  <!-- Razorpay Checkout Script (will be used on cart page) -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   
   <script>
-    // Razorpay payment function
-    function payWithRazorpay(productName, amount, email, phone) {
-      
-      // 👇 IMPORTANT: Replace this with your actual Razorpay Key ID
-      // Get it from: https://dashboard.razorpay.com/#/app/keys
-      const razorpayKey = "rzp_test_SHGwR40ambZGO3"; // CHANGE THIS!
-      
-      // For testing, use test key: "rzp_test_YourTestKey"
-      
-      const options = {
-        key: razorpayKey, // Your Razorpay Key ID
-        amount: amount, // Amount in paise (₹499 = 49900 paise)
-        currency: "INR",
-        name: "Akheel's Pixel Shop",
-        description: productName,
-        image: "https://your-site.netlify.app/pixel-logo.png", // Optional: your logo
-        handler: function(response) {
-          // This runs after successful payment
-          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
-          
-          // You can redirect to a thank you page
-          // window.location.href = "thankyou.html?payment_id=" + response.razorpay_payment_id;
-          
-          console.log("Payment success:", response);
-        },
-        prefill: {
-          name: "Customer Name", // Optional: you can collect this via a form
-          email: email,
-          contact: phone
-        },
-        notes: {
-          address: "Pixel Shop"
-        },
-        theme: {
-          color: "#1e1e1e" // Matches your retro theme
-        },
-        modal: {
-          ondismiss: function() {
-            console.log("Payment cancelled");
-          }
-        }
-      };
+    // Handle auth state changes (for user greeting)
+    supabase.auth.onAuthStateChange((event, session) => {
+      const greeting = document.getElementById('user-greeting');
+      const loginLink = document.getElementById('login-link');
+      const logoutLink = document.getElementById('logout-link');
+      if (session) {
+        greeting.innerText = `Hi, ${session.user.email}`;
+        loginLink.style.display = 'none';
+        logoutLink.style.display = 'inline-block';
+      } else {
+        greeting.innerText = '';
+        loginLink.style.display = 'inline-block';
+        logoutLink.style.display = 'none';
+      }
+    });
 
-      // Create and open Razorpay checkout
-      const razorpay = new Razorpay(options);
-      razorpay.open();
-      
-      // Optional: Handle payment failure
-      razorpay.on('payment.failed', function(response) {
-        alert("Payment failed: " + response.error.description);
-        console.error("Payment error:", response.error);
-      });
-    }
+    // Logout function
+    window.logout = async function() {
+      await supabase.auth.signOut();
+      location.reload(); // reload to reset cart to guest state
+    };
   </script>
 </body>
 </html>
