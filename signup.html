@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- same meta, fonts, global styles as other pages -->
+  <title>AKHEEL · signup</title>
+  <style>
+    /* reuse existing styles + form specific */
+    .auth-form {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border: 4px solid #1e1e1e;
+      background: #fff;
+      box-shadow: 8px 8px 0 #1e1e1e;
+    }
+    .auth-form label {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .auth-form input {
+      width: 100%;
+      background: #1e1e1e;
+      color: #fff;
+      border: 4px solid #1e1e1e;
+      padding: 0.8rem;
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 4px 4px 0 #1e1e1e;
+    }
+    .auth-form button {
+      width: 100%;
+    }
+    .error-message {
+      color: red;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1># AKHEEL.</h1></header>
+    <nav>... same nav ...</nav>
+    <main>
+      <div class="auth-form">
+        <h2>sign up</h2>
+        <div id="error" class="error-message"></div>
+        <label for="email">email</label>
+        <input type="email" id="email" required>
+        <label for="password">password</label>
+        <input type="password" id="password" required>
+        <label for="fullname">full name (optional)</label>
+        <input type="text" id="fullname">
+        <button onclick="handleSignup()" class="pixel-btn">create account</button>
+        <p style="margin-top:1rem;">Already have an account? <a href="login.html">login</a></p>
+      </div>
+    </main>
+    <footer>...</footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabase = supabase.createClient('YOUR_SUPABASE_URL', 'YOUR_ANON_KEY');
+    async function handleSignup() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const fullname = document.getElementById('fullname').value;
+      const { user, error } = await supabase.auth.signUp({
+        email, password,
+        options: { data: { full_name: fullname } }
+      });
+      if (error) {
+        document.getElementById('error').innerText = error.message;
+      } else {
+        alert('Check your email for confirmation!');
+        window.location.href = 'login.html';
+      }
+    }
+  </script>
+</body>
+</html>
