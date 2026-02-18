@@ -238,6 +238,14 @@
         window.location.href = 'index.html';
       }
     }
+    // Inside handleLogin, after successful login:
+const pending = localStorage.getItem('pendingCartItem');
+if (pending) {
+  const product = JSON.parse(pending);
+  await addToCart(product);
+  localStorage.removeItem('pendingCartItem');
+}
+window.location.href = 'index.html'; // or 'products.html'
 
     // Auth state change (for nav greeting)
     supabase.auth.onAuthStateChange((event, session) => {
