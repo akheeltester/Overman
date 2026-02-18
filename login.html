@@ -220,54 +220,55 @@
   </div>
 
   <script>
-    // Handle login
-    async function handleLogin() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const errorDiv = document.getElementById('error');
+  async function handleLogin() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('error');
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-      if (error) {
-        errorDiv.innerText = error.message;
-      } else {
-        // Redirect to home or previous page
-        window.location.href = 'index.html';
-      }
-    }
-    // Inside handleLogin, after successful login:
-const pending = localStorage.getItem('pendingCartItem');
-if (pending) {
-  const product = JSON.parse(pending);
-  await addToCart(product);
-  localStorage.removeItem('pendingCartItem');
-}
-window.location.href = 'index.html'; // or 'products.html'
-
-    // Auth state change (for nav greeting)
-    supabase.auth.onAuthStateChange((event, session) => {
-      const greeting = document.getElementById('user-greeting');
-      const loginLink = document.getElementById('login-link');
-      const logoutLink = document.getElementById('logout-link');
-      if (session) {
-        greeting.innerText = `Hi, ${session.user.email}`;
-        loginLink.style.display = 'none';
-        logoutLink.style.display = 'inline-block';
-      } else {
-        greeting.innerText = '';
-        loginLink.style.display = 'inline-block';
-        logoutLink.style.display = 'none';
-      }
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password
     });
 
-    // Logout function
-    window.logout = async function() {
-      await supabase.auth.signOut();
-      location.reload();
-    };
-  </script>
+    if (error) {
+      errorDiv.innerText = error.message;
+    } else {
+      // Check for pending cart item
+      const pending = localStorage.getItem('pendingCartItem');
+      if (pending) {
+        const product = JSON.parse(pending);
+        // Make sure addToCart is defined (from cart.js)
+        if (typeof addToCart === 'function') {
+          await addToCart(product);
+        }
+        localStorage.removeItem('pendingCartItem');
+      }
+      // Redirect to home or products page
+      window.location.href = 'index.html';
+    }
+  }
+
+  // Auth state change (for nav greeting)
+  supabase.auth.onAuthStateChange((event, session) => {
+    const greeting = document.getElementById('user-greeting');
+    const loginLink = document.getElementById('login-link');
+    const logoutLink = document.getElementById('logout-link');
+    if (session) {
+      greeting.innerText = `Hi, ${session.user.email}`;
+      loginLink.style.display = 'none';
+      logoutLink.style.display = 'inline-block';
+    } else {
+      greeting.innerText = '';
+      loginLink.style.display = 'inline-block';
+      logoutLink.style.display = 'none';
+    }
+  });
+
+  // Logout function
+  window.logout = async function() {
+    await supabase.auth.signOut();
+    location.reload();
+  };
+</script>
 </body>
 </html>
