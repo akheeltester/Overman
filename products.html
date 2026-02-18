@@ -290,6 +290,17 @@
       await supabase.auth.signOut();
       location.reload(); // reload to reset cart to guest state
     };
+    // Handle add to cart with login redirect
+window.handleAddToCart = async function(product) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    // Save product to localStorage to add after login
+    localStorage.setItem('pendingCartItem', JSON.stringify(product));
+    window.location.href = 'login.html';
+  } else {
+    addToCart(product);
+  }
+};
   </script>
 </body>
 </html>
