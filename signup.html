@@ -239,14 +239,17 @@
         }
       });
 
-      if (error) {
-        errorDiv.innerText = error.message;
-      } else {
-        alert('Check your email for confirmation!');
-        window.location.href = 'login.html';
-      }
-    }
-
+// After signup, if you auto-login (depends on settings)
+if (!error) {
+  const pending = localStorage.getItem('pendingCartItem');
+  if (pending) {
+    const product = JSON.parse(pending);
+    // You might need to wait for login; better to handle in login page
+    localStorage.removeItem('pendingCartItem');
+  }
+  alert('Check your email for confirmation!');
+  window.location.href = 'login.html';
+}
     // Auth state change (for nav greeting)
     supabase.auth.onAuthStateChange((event, session) => {
       const greeting = document.getElementById('user-greeting');
