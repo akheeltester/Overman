@@ -1,5 +1,5 @@
 // cart.js
-// Make sure supabase is already loaded (from the script tag in your HTML)
+// Make sure supabase client is already initialized globally
 
 let cart = [];
 
