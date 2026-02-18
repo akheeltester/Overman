@@ -1,5 +1,26 @@
-<style>
-    /* ----- GLOBAL STYLES (same for all pages) ----- */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AKHEEL · login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Initialize Supabase (use your actual URL and anon key)
+    const SUPABASE_URL = 'https://pwvyxhtlmozfeqorlnib.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_YsCixepPW0lGeBEq7R902g_TeAsiLQA';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+  
+  <!-- Cart logic (optional, but may be needed for cart count) -->
+  <script src="cart.js"></script>
+  
+  <style>
+    /* ----- GLOBAL STYLES (same as other pages) ----- */
     * {
       margin: 0;
       padding: 0;
@@ -18,34 +39,25 @@
       padding: 1.5rem;
     }
 
-    h1,
-    h2,
-    h3,
-    .pixel-heading {
+    h1, h2, h3 {
       font-family: 'Press Start 2P', cursive;
       margin-bottom: 1.5rem;
       text-transform: uppercase;
     }
 
-    h1 {
-      font-size: 2.2rem;
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.6rem; margin-top: 2rem; }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+      border-bottom: 4px solid #1e1e1e;
+      padding-bottom: 1.5rem;
+      align-items: center;
     }
 
-    h2 {
-      font-size: 1.6rem;
-      margin-top: 2rem;
-    }
-
-    .pixel-border {
-      border: 4px solid #1e1e1e;
-      background: #fff;
-      padding: 1rem;
-      box-shadow: 4px 4px 0 #1e1e1e;
-    }
-
-    button,
-    .pixel-btn,
-    input[type="submit"],
     .nav-link {
       background: #fff;
       border: 4px solid #1e1e1e;
@@ -56,34 +68,17 @@
       box-shadow: 4px 4px 0 #1e1e1e;
       text-decoration: none;
       color: #1e1e1e;
-      display: inline-block;
       transition: all 0.05s linear;
     }
 
-    button:hover,
-    .pixel-btn:hover,
-    input[type="submit"]:hover,
-    .nav-link:hover {
+    .nav-link:hover, .nav-link.active {
       background: #1e1e1e;
       color: #fff;
       transform: translate(4px, 4px);
       box-shadow: none;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.2rem;
-      margin-bottom: 3rem;
-      border-bottom: 4px solid #1e1e1e;
-      padding-bottom: 1.5rem;
     }
 
     .nav-link.active {
-      background: #1e1e1e;
-      color: #fff;
-      transform: translate(4px, 4px);
-      box-shadow: none;
       pointer-events: none;
     }
 
@@ -100,132 +95,171 @@
       font-size: 1.2rem;
     }
 
-    /* ----- HOMEPAGE SIGNUP AREA (updated) ----- */
-    .signup-area {
-      max-width: 700px;
-      margin: 3rem auto;
-      text-align: center;
+    /* ----- AUTH FORM STYLES ----- */
+    .auth-form {
+      max-width: 400px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border: 4px solid #1e1e1e;
+      background: #fff;
+      box-shadow: 8px 8px 0 #1e1e1e;
     }
 
-    .intro-text {
-      font-size: 1.8rem;
-      margin-bottom: 2rem;
-      line-height: 1.4;
-    }
-
-    /* Contact form styling */
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin: 2rem 0;
-      text-align: left;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .form-group label {
+    .auth-form label {
       font-family: 'Press Start 2P', cursive;
       font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
     }
 
-    .form-group input,
-    .form-group textarea {
-      background: #1e1e1e;
-      /* black background */
-      color: #ffffff;
-      /* white text */
-      border: 4px solid #1e1e1e;
-      padding: 0.8rem 1rem;
-      font-family: 'VT323', monospace;
-      font-size: 1.4rem;
+    .auth-form input {
       width: 100%;
-      box-shadow: 4px 4px 0 #1e1e1e;
-      outline: none;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      background: #2e2e2e;
-      /* slightly lighter on focus */
-      border-color: #ffffff;
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    /* Submit button – inverted colours (black bg, white text) */
-    .submit-btn {
       background: #1e1e1e;
-      color: #ffffff;
+      color: #fff;
+      border: 4px solid #1e1e1e;
+      padding: 0.8rem;
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      box-shadow: 4px 4px 0 #1e1e1e;
+    }
+
+    .auth-form button {
+      width: 100%;
+      margin-top: 2rem;
+      background: #1e1e1e;
+      color: #fff;
       border: 4px solid #1e1e1e;
       font-family: 'Press Start 2P', cursive;
       font-size: 0.9rem;
-      padding: 1rem 1.5rem;
+      padding: 1rem;
       cursor: pointer;
       box-shadow: 4px 4px 0 #1e1e1e;
-      width: fit-content;
-      margin: 0 auto;
-      /* center button */
       transition: all 0.05s linear;
-      text-transform: uppercase;
     }
 
-    .submit-btn:hover {
-      background: #ffffff;
+    .auth-form button:hover {
+      background: #fff;
       color: #1e1e1e;
       transform: translate(4px, 4px);
       box-shadow: none;
     }
 
-    .disclaimer {
+    .error-message {
+      color: red;
       font-size: 1rem;
-      border-top: 2px solid #1e1e1e;
-      padding-top: 1rem;
-      margin-top: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-family: 'Press Start 2P', cursive;
     }
 
-    .disclaimer a {
+    .auth-links {
+      margin-top: 1.5rem;
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .auth-links a {
       color: #1e1e1e;
       text-decoration: underline;
       text-underline-offset: 4px;
     }
 
-    /* ensure form elements don't overflow on small screens */
-    @media (max-width: 600px) {
-      .contact-form {
-        gap: 1rem;
-      }
+    #user-greeting {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: #1e1e1e;
+      margin-right: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1># AKHEEL.</h1>
+    </header>
 
-      .submit-btn {
-        width: 100%;
+    <nav>
+      <a href="index.html" class="nav-link">HOME</a>
+      <a href="timeline.html" class="nav-link">TIMELINE</a>
+      <a href="projects.html" class="nav-link">PROJECTS</a>
+      <a href="products.html" class="nav-link">PRODUCTS</a>
+      <a href="cart.html" class="nav-link">CART</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+
+      <!-- User greeting and logout link (will be shown if logged in) -->
+      <div style="margin-left:auto; display:flex; gap:1rem; align-items:center;">
+        <span id="user-greeting"></span>
+        <a href="login.html" class="nav-link active" id="login-link">LOGIN</a>
+        <a href="#" class="nav-link" id="logout-link" style="display:none;" onclick="logout()">LOGOUT</a>
+      </div>
+    </nav>
+
+    <main>
+      <div class="auth-form">
+        <h2>log in</h2>
+        <div id="error" class="error-message"></div>
+
+        <label for="email">email</label>
+        <input type="email" id="email" required>
+
+        <label for="password">password</label>
+        <input type="password" id="password" required>
+
+        <button onclick="handleLogin()">log in</button>
+
+        <div class="auth-links">
+          No account? <a href="signup.html">sign up</a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2025 AKHEEL. – retro login</p>
+    </footer>
+  </div>
+
+  <script>
+    // Handle login
+    async function handleLogin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('error');
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        errorDiv.innerText = error.message;
+      } else {
+        // Redirect to home or previous page
+        window.location.href = 'index.html';
       }
     }
-  </style><!-- login.html -->
-<div class="auth-form">
-  <h2>log in</h2>
-  <div id="error" class="error-message"></div>
-  <label for="email">email</label>
-  <input type="email" id="email">
-  <label for="password">password</label>
-  <input type="password" id="password">
-  <button onclick="handleLogin()" class="pixel-btn">log in</button>
-  <p>No account? <a href="signup.html">sign up</a></p>
-</div>
-<script>
-  async function handleLogin() {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const { error } = await supabase.auth.signIn({ email, password });
-    if (error) document.getElementById('error').innerText = error.message;
-    else window.location.href = 'index.html'; // or cart page
-  }
-</script>
+
+    // Auth state change (for nav greeting)
+    supabase.auth.onAuthStateChange((event, session) => {
+      const greeting = document.getElementById('user-greeting');
+      const loginLink = document.getElementById('login-link');
+      const logoutLink = document.getElementById('logout-link');
+      if (session) {
+        greeting.innerText = `Hi, ${session.user.email}`;
+        loginLink.style.display = 'none';
+        logoutLink.style.display = 'inline-block';
+      } else {
+        greeting.innerText = '';
+        loginLink.style.display = 'inline-block';
+        logoutLink.style.display = 'none';
+      }
+    });
+
+    // Logout function
+    window.logout = async function() {
+      await supabase.auth.signOut();
+      location.reload();
+    };
+  </script>
+</body>
+</html>
