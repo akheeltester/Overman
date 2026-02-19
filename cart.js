@@ -63,11 +63,6 @@ async function updateQuantity(productId, newQuantity) {
   }
 }
 
-async function clearCart() {
-  cart = [];
-  await saveCart();
-}
-
 function getCartTotal() {
   return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 }
