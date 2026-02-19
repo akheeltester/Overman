@@ -302,5 +302,17 @@ window.handleAddToCart = async function(product) {
   }
 };
   </script>
+  <!-- At the bottom, before closing </body> -->
+<script>
+  window.handleAddToCart = async function(product) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      localStorage.setItem('pendingCartItem', JSON.stringify(product));
+      window.location.href = 'login.html';
+    } else {
+      addToCart(product);
+    }
+  };
+</script>
 </body>
 </html>
