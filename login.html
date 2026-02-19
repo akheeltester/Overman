@@ -10,13 +10,13 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     const SUPABASE_URL = 'https://pwvyxhtlmozfeqorlnib.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_YsCixepPW0lGeBEq7R902g_TeAsiLQA';
+    const SUPABASE_ANON_KEY = 'sb_publishable_YsCixepPw0lGeBEq7R902g_TeA';
     const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   </script>
   <script src="cart.js"></script>
   
   <style>
-    /* Same global styles as signup.html – copy from above */
+    /* same styles as signup.html – copy from above */
     * { margin:0; padding:0; box-sizing:border-box; image-rendering:pixelated; }
     body {
       background:#faf8f5; font-family:'VT323',monospace; color:#1e1e1e; font-size:1.4rem;
@@ -115,7 +115,7 @@
           }
           localStorage.removeItem('pendingCartItem');
         }
-        window.location.href = 'index.html'; // or 'products.html'
+        window.location.href = 'index.html';
       }
     }
 
