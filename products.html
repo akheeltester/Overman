@@ -16,7 +16,6 @@
   <script src="cart.js"></script>
   
   <style>
-    /* global styles – same as before, plus product grid */
     * { margin:0; padding:0; box-sizing:border-box; image-rendering:pixelated; }
     body {
       background:#faf8f5; font-family:'VT323',monospace; color:#1e1e1e; font-size:1.4rem;
@@ -171,7 +170,6 @@
   </div>
 
   <script>
-    // Handle add to cart with login redirect
     window.handleAddToCart = async function(product) {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -182,7 +180,6 @@
       }
     };
 
-    // Auth state change for nav greeting
     supabase.auth.onAuthStateChange((event, session) => {
       const greeting = document.getElementById('user-greeting');
       const loginLink = document.getElementById('login-link');
