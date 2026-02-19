@@ -1,50 +1,75 @@
-// Enhanced Cart Management Functions
-
+// cart.js
 let cart = [];
 
-// Add an item to the cart
-function addToCart(item) {
-    cart.push(item);
+async function loadCart() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    const { data, error } = await supabase
+      .from('cart_items')
+      .select('*')
+      .eq('user_id', user.id);
+    if (!error) cart = data || [];
+  } else {
+    const stored = localStorage.getItem('cart');
+    cart = stored ? JSON.parse(stored) : [];
+  }
+  if (typeof renderCart === 'function') renderCart();
 }
 
-// Remove an item from the cart
-function removeFromCart(itemId) {
-    cart = cart.filter(item => item.id !== itemId);
-}
-
-// Update the quantity of an item in the cart
-function updateCartQuantity(itemId, quantity) {
-    const item = cart.find(item => item.id === itemId);
-    if (item) {
-        item.quantity = quantity;
+async function saveCart() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    await supabase.from('cart_items').delete().eq('user_id', user.id);
+    if (cart.length > 0) {
+      const itemsWithUser = cart.map(item => ({ ...item, user_id: user.id }));
+      await supabase.from('cart_items').insert(itemsWithUser);
     }
+  } else {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  if (typeof renderCart === 'function') renderCart();
 }
 
-// Get the current cart
-function getCart() {
-    return cart;
+async function addToCart(product) {
+  const existing = cart.find(item => item.product_id === product.id);
+  if (existing) {
+    existing.quantity += product.quantity || 1;
+  } else {
+    cart.push({
+      product_id: product.id,
+      product_name: product.name,
+      price: product.price,
+      quantity: product.quantity || 1
+    });
+  }
+  await saveCart();
+  alert('Added to cart!');
 }
 
-// Get the count of items in the cart
-function getCartCount() {
-    return cart.reduce((count, item) => count + item.quantity, 0);
+async function removeFromCart(productId) {
+  cart = cart.filter(item => item.product_id !== productId);
+  await saveCart();
 }
 
-// Get the total price of the cart
+async function updateQuantity(productId, newQuantity) {
+  const item = cart.find(i => i.product_id === productId);
+  if (item) {
+    if (newQuantity <= 0) {
+      await removeFromCart(productId);
+    } else {
+      item.quantity = newQuantity;
+      await saveCart();
+    }
+  }
+}
+
+async function clearCart() {
+  cart = [];
+  await saveCart();
+}
+
 function getCartTotal() {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 }
 
-// Clear the cart
-function clearCart() {
-    cart = [];
-}
-
-// Update the cart count (for UI or notifications)
-function updateCartCount() {
-    const count = getCartCount();
-    // Update UI elements or trigger notifications here.
-}
-
-// Export functions for external usage
-export { addToCart, removeFromCart, updateCartQuantity, getCart, getCartCount, getCartTotal, clearCart, updateCartCount };
+loadCart();
