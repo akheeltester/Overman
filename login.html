@@ -7,13 +7,81 @@
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = 'https://pwvyxhtlmozfeqorlnib.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_YsCixepPw0lGeBEq7R902g_TeA';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  </script>
-  <script src="cart.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://pwvyxhtlmozfeqorlnib.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_YsCixepPW0lGeBEq7R902g_TeAsiLQA";
+
+  const { createClient } = supabase;
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Restore session on load
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { data: { session } } = await sb.auth.getSession();
+    updateUI(session);
+  });
+
+  async function handleLogin() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const errorDiv = document.getElementById("error");
+
+    errorDiv.innerText = "";
+
+    if (!email || !password) {
+      errorDiv.innerText = "Email and password required.";
+      return;
+    }
+
+    const { data, error } = await sb.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      errorDiv.innerText = error.message;
+      return;
+    }
+
+    // Optional: handle pending cart
+    const pending = localStorage.getItem("pendingCartItem");
+    if (pending) {
+      const product = JSON.parse(pending);
+      if (typeof addToCart === "function") {
+        await addToCart(product);
+      }
+      localStorage.removeItem("pendingCartItem");
+    }
+
+    window.location.href = "index.html";
+  }
+
+  function updateUI(session) {
+    const greeting = document.getElementById("user-greeting");
+    const loginLink = document.getElementById("login-link");
+    const logoutLink = document.getElementById("logout-link");
+
+    if (session) {
+      greeting.innerText = `Hi, ${session.user.email}`;
+      loginLink.style.display = "none";
+      logoutLink.style.display = "inline-block";
+    } else {
+      greeting.innerText = "";
+      loginLink.style.display = "inline-block";
+      logoutLink.style.display = "none";
+    }
+  }
+
+  sb.auth.onAuthStateChange((event, session) => {
+    updateUI(session);
+  });
+
+  window.logout = async function () {
+    await sb.auth.signOut();
+    window.location.href = "index.html";
+  };
+</script>
   
   <style>
     /* same styles as signup.html – copy from above */
