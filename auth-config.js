@@ -1,55 +1,53 @@
-// auth-config.js
+// auth.js
+import { supabase } from './supabaseClient.js';
 
-import { createClient } from '@supabase/supabase-js';
+document.addEventListener("DOMContentLoaded", () => {
 
-// Initialize Supabase with your project's URL and anonymous key
-const supabaseUrl = 'https://your-supabase-url.supabase.co';
-const supabaseAnonKey = 'your-supabase-anon-key';
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  const loginForm = document.getElementById("login-form");
+  const signupForm = document.getElementById("signup-form");
 
-/**
- * Sign up a new user
- * @param {string} email 
- * @param {string} password 
- * @returns 
- */
-export const signUp = async (email, password) => {
-    return await supabase.auth.signUp({ email, password });
-};
+  if (signupForm) {
+    signupForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = signupForm.email.value;
+      const password = signupForm.password.value;
 
-/**
- * Sign in an existing user
- * @param {string} email 
- * @param {string} password 
- * @returns 
- */
-export const signIn = async (email, password) => {
-    return await supabase.auth.signIn({ email, password });
-};
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password
+      });
 
-/**
- * Sign out the current user
- * @returns 
- */
-export const signOut = async () => {
-    return await supabase.auth.signOut();
-};
+      if (error) {
+        alert(error.message);
+      } else {
+        alert("Signup successful. Check email for verification.");
+        window.location.href = "login.html";
+      }
+    });
+  }
 
-/**
- * Get the current user
- * @returns 
- */
-export const getCurrentUser = () => {
-    return supabase.auth.user();
-};
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = loginForm.email.value;
+      const password = loginForm.password.value;
 
-/**
- * Get the session
- * @returns 
- */
-export const getSession = () => {
-    return supabase.auth.session();
-};
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
 
-// Export the Supabase client as well
-export { supabase };
+      if (error) {
+        alert(error.message);
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+  }
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_OUT") {
+      window.location.href = "login.html";
+    }
+  });
+});
